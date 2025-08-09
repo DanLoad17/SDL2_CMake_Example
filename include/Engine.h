@@ -11,6 +11,7 @@ public:
     void cleanup();
     void render();
     void handleInput();
+    void clampPosition();
 
 private:
     std::string title;

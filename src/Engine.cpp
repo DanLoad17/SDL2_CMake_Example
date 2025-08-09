@@ -125,8 +125,17 @@ void Engine::handleInput() {
     if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
         rectX += currentSpeed;
     }
+    
+    clampPosition();
 }
 
+void Engine::clampPosition() {
+    // Clamp rectangle within left half of the window
+    if (rectX < 0) rectX = 0;
+    if (rectY < 0) rectY = 0;
+    if (rectX + 10 > width / 2) rectX = width / 2 - 10;  
+    if (rectY + 10 > height) rectY = height - 10;       
+}
 
 void Engine::run() {
     while (isRunning) {
