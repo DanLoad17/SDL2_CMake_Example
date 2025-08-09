@@ -87,6 +87,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include" /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -112,10 +113,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -135,7 +136,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\debug\lib\manual-link\SDL2maind.lib;C:\Users\goran\vcpkg\installed\x64-windows\debug\lib\manual-link\SDL2maind.lib;C:\Users\goran\vcpkg\installed\x64-windows\debug\lib\SDL2d.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\debug\lib\SDL2d.lib;C:\Users\goran\vcpkg\installed\x64-windows\debug\lib\manual-link\SDL2maind.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -146,7 +147,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/Debug/SDL2_CMake_Example.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -154,6 +155,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include" /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -180,10 +182,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -203,7 +205,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\SDL2.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\lib\SDL2.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -214,7 +216,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/Release/SDL2_CMake_Example.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -222,6 +224,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include" /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -248,10 +251,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -271,7 +274,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\SDL2.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\lib\SDL2.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -282,7 +285,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/MinSizeRel/SDL2_CMake_Example.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -290,6 +293,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include" /external:I "C:/Users/goran/vcpkg/installed/x64-windows/include/SDL2"</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -315,10 +319,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\PERSONAL PROJECTS\SDL2_CMake_Example\include;C:\Users\goran\vcpkg\installed\x64-windows\include;C:\Users\goran\vcpkg\installed\x64-windows\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -338,7 +342,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\SDL2.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\goran\vcpkg\installed\x64-windows\lib\SDL2.lib;C:\Users\goran\vcpkg\installed\x64-windows\lib\manual-link\SDL2main.lib;shell32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
@@ -349,7 +353,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkErrorReporting></LinkErrorReporting>
       <ProgramDataBaseFile>F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/RelWithDebInfo/SDL2_CMake_Example.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -413,7 +417,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="F:\PERSONAL PROJECTS\SDL2_CMake_Example\main.cpp" />
+    <ClCompile Include="F:\PERSONAL PROJECTS\SDL2_CMake_Example\src\Engine.cpp" />
+    <ClCompile Include="F:\PERSONAL PROJECTS\SDL2_CMake_Example\src\main.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
