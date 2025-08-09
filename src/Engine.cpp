@@ -1,15 +1,22 @@
 #include "Engine.h"
 #include <iostream>
+#include <sstream>
 
 Engine::Engine(const std::string& title, int width, int height)
     : title(title), width(width), height(height),
       window(nullptr), renderer(nullptr), isRunning(false),
-      rectX(100), rectY(100), rectSpeed(5) // initialize rectangle position and speed
+      rectX(100), rectY(100), rectSpeed(5),
+      font(nullptr), fpsTexture(nullptr), fpsTimerStart(0), frameCount(0), currentFPS(0)
 {}
 
 bool Engine::init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    if (TTF_Init() == -1) {
+        std::cerr << "SDL_ttf could not initialize! TTF_Error: " << TTF_GetError() << "\n";
         return false;
     }
 
@@ -30,8 +37,64 @@ bool Engine::init() {
         return false;
     }
 
+    // Load font (you need a .ttf file, place it in your project folder or provide full path)
+    font = TTF_OpenFont("LCALLIG.ttf", 16);
+    if (!font) {
+        std::cerr << "Failed to load font! TTF_Error: " << TTF_GetError() << "\n";
+        //SDL_Delay(5000); //FOR DEBUGGING
+        return false;
+    }
+
+    fpsTimerStart = SDL_GetTicks();
+
     isRunning = true;
     return true;
+}
+
+void Engine::updateFPS() {
+    frameCount++;
+    Uint32 elapsed = SDL_GetTicks() - fpsTimerStart;
+
+    if (elapsed >= 1000) {  // Every 1 second
+        currentFPS = frameCount;
+        frameCount = 0;
+        fpsTimerStart = SDL_GetTicks();
+
+        // Create new FPS texture
+        if (fpsTexture) {
+            SDL_DestroyTexture(fpsTexture);
+            fpsTexture = nullptr;
+        }
+
+        std::stringstream ss;
+        ss << "FPS: " << currentFPS;
+        fpsTexture = createTextTexture(ss.str(), { 255, 255, 255, 255 });
+
+        // Position top right
+        if (fpsTexture) {
+            int texW = 0;
+            int texH = 0;
+            SDL_QueryTexture(fpsTexture, NULL, NULL, &texW, &texH);
+            fpsRect = { width - texW - 10, 10, texW, texH };
+        }
+    }
+}
+
+SDL_Texture* Engine::createTextTexture(const std::string& text, SDL_Color color) {
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
+    if (!surface) {
+        std::cerr << "Failed to create text surface! TTF_Error: " << TTF_GetError() << "\n";
+        return nullptr;
+    }
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    return texture;
+}
+
+void Engine::renderFPS() {
+    if (fpsTexture) {
+        SDL_RenderCopy(renderer, fpsTexture, NULL, &fpsRect);
+    }
 }
 
 void Engine::handleInput() {
@@ -71,11 +134,13 @@ void Engine::run() {
         SDL_RenderClear(renderer);
 
         render();
+        renderFPS();
 
         SDL_RenderPresent(renderer);
 
-        // Delay to control frame rate (~60 FPS)
-        SDL_Delay(16);
+        updateFPS();
+
+        SDL_Delay(16);  // ~60 FPS CHANGE TO CHANGE FPS (16 for 60 FPS)
     }
 }
 
@@ -87,7 +152,16 @@ void Engine::render() {
 }
 
 void Engine::cleanup() {
+    if (fpsTexture) {
+        SDL_DestroyTexture(fpsTexture);
+        fpsTexture = nullptr;
+    }
+    if (font) {
+        TTF_CloseFont(font);
+        font = nullptr;
+    }
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 }

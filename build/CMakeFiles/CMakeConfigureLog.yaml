@@ -5647,3 +5647,126 @@ events:
         - "C:/Program Files (x86)/SDL2_CMake_Example"
       CMAKE_FIND_ROOT_PATH: "C:/Users/goran/vcpkg/installed/x64-windows/debug;C:/Users/goran/vcpkg/installed/x64-windows"
 ...
+
+---
+events:
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Users/goran/vcpkg/scripts/buildsystems/vcpkg.cmake:896 (_find_package)"
+      - "CMakeLists.txt:8 (find_package)"
+    name: "SDL2_ttf"
+    configs:
+      -
+        filename: "SDL2_ttfConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "sdl2_ttf-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "SDL2_ttf"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "C:/Users/goran/vcpkg/installed/x64-windows/debug/SDL2_ttfConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/goran/vcpkg/installed/x64-windows/debug/sdl2_ttf-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/goran/vcpkg/installed/x64-windows/debug/SDL2_ttfConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/goran/vcpkg/installed/x64-windows/debug/sdl2_ttf-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/goran/vcpkg/installed/x64-windows/SDL2_ttfConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "C:/Users/goran/vcpkg/installed/x64-windows/sdl2_ttf-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake"
+      mode: "config"
+      version: "2.24.0"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "C:/Users/goran/vcpkg/installed/x64-windows/debug"
+        - "C:/Users/goran/vcpkg/installed/x64-windows"
+      ENV{PATH}:
+        - "c:\\Users\\goran\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+        - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.6\\bin"
+        - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v12.6\\libnvvp"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Razer Chroma SDK\\bin"
+        - "C:\\Program Files\\Razer Chroma SDK\\bin"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Users\\goran\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\Intel\\WiFi\\bin\\"
+        - "C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "B:\\Program Files\\MATLAB\\runtime\\win64"
+        - "B:\\Program Files\\MATLAB\\bin"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\RedHat\\Podman\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\"
+        - "C:\\Progr"
+        - "c:\\Users\\goran\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA NvDLISR"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\goran\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\Intel\\WiFi\\bin\\"
+        - "C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\"
+        - "C:\\Users\\goran\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\goran\\.dotnet\\tools"
+        - "C:\\Users\\goran\\AppData\\Local\\Google\\Cloud SDK\\google-cloud-sdk\\bin"
+        - "C:\\Users\\goran\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\goran\\emsdk\\upstream\\emscripten"
+        - "C:\\Users\\goran\\AppData\\Roaming\\npm"
+        - "C:\\Program Files\\nodejs"
+        - "C:\\msys64\\ucrt64\\bin"
+        - "C:\\Users\\goran\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+        - "C:\\Users\\goran\\vcpkg"
+        - "C:\\Users\\goran\\vcpkg\\scripts\\buildsystems\\vcpkg.CMake"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/SDL2_CMake_Example"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/SDL2_CMake_Example"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/goran/vcpkg/installed/x64-windows/debug;C:/Users/goran/vcpkg/installed/x64-windows"
+...

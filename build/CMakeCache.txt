@@ -218,6 +218,9 @@ SDL2_CMake_Example_SOURCE_DIR:STATIC=F:/PERSONAL PROJECTS/SDL2_CMake_Example
 //The directory containing a CMake configuration file for SDL2.
 SDL2_DIR:PATH=C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2
 
+//The directory containing a CMake configuration file for SDL2_ttf.
+SDL2_ttf_DIR:PATH=C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf
+
 //Automatically copy dependencies into the output directory for
 // executables.
 VCPKG_APPLOCAL_DEPS:BOOL=ON
