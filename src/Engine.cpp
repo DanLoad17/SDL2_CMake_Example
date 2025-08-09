@@ -3,7 +3,9 @@
 
 Engine::Engine(const std::string& title, int width, int height)
     : title(title), width(width), height(height),
-      window(nullptr), renderer(nullptr), isRunning(false) {}
+      window(nullptr), renderer(nullptr), isRunning(false),
+      rectX(100), rectY(100), rectSpeed(5) // initialize rectangle position and speed
+{}
 
 bool Engine::init() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -32,22 +34,56 @@ bool Engine::init() {
     return true;
 }
 
-void Engine::run() {
+void Engine::handleInput() {
     SDL_Event e;
-    while (isRunning) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
-                isRunning = false;
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) {
+            isRunning = false;
+        }
+        else if (e.type == SDL_KEYDOWN) {
+            switch (e.key.keysym.sym) {
+                case SDLK_UP:
+                case SDLK_w:
+                    rectY -= rectSpeed;
+                    break;
+                case SDLK_DOWN:
+                case SDLK_s:
+                    rectY += rectSpeed;
+                    break;
+                case SDLK_LEFT:
+                case SDLK_a:
+                    rectX -= rectSpeed;
+                    break;
+                case SDLK_RIGHT:
+                case SDLK_d:
+                    rectX += rectSpeed;
+                    break;
             }
         }
+    }
+}
+
+void Engine::run() {
+    while (isRunning) {
+        handleInput();
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // Rendering will go here...
+        render();
 
         SDL_RenderPresent(renderer);
+
+        // Delay to control frame rate (~60 FPS)
+        SDL_Delay(16);
     }
+}
+
+void Engine::render() {
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+
+    SDL_Rect rect = { rectX, rectY, 200, 150 };
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 void Engine::cleanup() {
