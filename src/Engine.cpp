@@ -103,28 +103,25 @@ void Engine::handleInput() {
         if (e.type == SDL_QUIT) {
             isRunning = false;
         }
-        else if (e.type == SDL_KEYDOWN) {
-            switch (e.key.keysym.sym) {
-                case SDLK_UP:
-                case SDLK_w:
-                    rectY -= rectSpeed;
-                    break;
-                case SDLK_DOWN:
-                case SDLK_s:
-                    rectY += rectSpeed;
-                    break;
-                case SDLK_LEFT:
-                case SDLK_a:
-                    rectX -= rectSpeed;
-                    break;
-                case SDLK_RIGHT:
-                case SDLK_d:
-                    rectX += rectSpeed;
-                    break;
-            }
-        }
+    }
+
+    // Get current keyboard state
+    const Uint8* keystates = SDL_GetKeyboardState(NULL);
+
+    if (keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP]) {
+        rectY -= rectSpeed;
+    }
+    if (keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN]) {
+        rectY += rectSpeed;
+    }
+    if (keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_LEFT]) {
+        rectX -= rectSpeed;
+    }
+    if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
+        rectX += rectSpeed;
     }
 }
+
 
 void Engine::run() {
     while (isRunning) {
