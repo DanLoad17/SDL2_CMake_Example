@@ -5,7 +5,7 @@
 Engine::Engine(const std::string& title, int width, int height)
     : title(title), width(width), height(height),
       window(nullptr), renderer(nullptr), isRunning(false),
-      rectX(100), rectY(100), rectSpeed(5),
+      rectX(100), rectY(100), rectSpeed(4),
       font(nullptr), fpsTexture(nullptr), fpsTimerStart(0), frameCount(0), currentFPS(0)
 {}
 
@@ -108,17 +108,22 @@ void Engine::handleInput() {
     // Get current keyboard state
     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
+    int currentSpeed = rectSpeed;
+
+    if(keystates[SDL_SCANCODE_LSHIFT]) {
+        currentSpeed = rectSpeed / 2;
+    }
     if (keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP]) {
-        rectY -= rectSpeed;
+        rectY -= currentSpeed;
     }
     if (keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN]) {
-        rectY += rectSpeed;
+        rectY += currentSpeed;
     }
     if (keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_LEFT]) {
-        rectX -= rectSpeed;
+        rectX -= currentSpeed;
     }
     if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
-        rectX += rectSpeed;
+        rectX += currentSpeed;
     }
 }
 
@@ -144,7 +149,7 @@ void Engine::run() {
 void Engine::render() {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
-    SDL_Rect rect = { rectX, rectY, 200, 150 };
+    SDL_Rect rect = { rectX, rectY, 10, 10 };
     SDL_RenderFillRect(renderer, &rect);
 }
 
