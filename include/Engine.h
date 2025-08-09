@@ -3,6 +3,10 @@
 #include <SDL_ttf.h>      // Add this
 #include <string>
 
+enum class GameState {
+    TITLE_SCREEN,
+    GAME_RUNNING
+};
 class Engine {
 public:
     Engine(const std::string& title, int width, int height);
@@ -10,7 +14,7 @@ public:
     void run();
     void cleanup();
     void render();
-    void handleInput();
+    void handleInput(SDL_Event& e);
     void clampPosition();
 
 private:
@@ -20,6 +24,8 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool isRunning;
+
+    GameState currentState;
 
     int rectX;
     int rectY;
@@ -36,4 +42,7 @@ private:
     void updateFPS();
     void renderFPS();
     SDL_Texture* createTextTexture(const std::string& text, SDL_Color color);
+
+    void renderTitleScreen();
+    void handleTitleInput(SDL_Event& e);
 };

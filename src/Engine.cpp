@@ -6,7 +6,8 @@ Engine::Engine(const std::string& title, int width, int height)
     : title(title), width(width), height(height),
       window(nullptr), renderer(nullptr), isRunning(false),
       rectX(100), rectY(100), rectSpeed(4),
-      font(nullptr), fpsTexture(nullptr), fpsTimerStart(0), frameCount(0), currentFPS(0)
+      font(nullptr), fpsTexture(nullptr), fpsTimerStart(0), frameCount(0), currentFPS(0),
+      currentState(GameState::TITLE_SCREEN)
 {}
 
 bool Engine::init() {
@@ -97,36 +98,48 @@ void Engine::renderFPS() {
     }
 }
 
-void Engine::handleInput() {
-    SDL_Event e;
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
+void Engine::handleInput(SDL_Event& e) {
+    if (e.type == SDL_QUIT) {
+        isRunning = false;
+    }
+
+    // Only process keyboard movement if event is a key or repeat
+    if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+        // We'll use keyboard state for smooth movement below
+        const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        int currentSpeed = rectSpeed;
+        if (keystates[SDL_SCANCODE_LSHIFT]) {
+            currentSpeed = rectSpeed / 2;
+        }
+        if (keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP]) {
+            rectY -= currentSpeed;
+        }
+        if (keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN]) {
+            rectY += currentSpeed;
+        }
+        if (keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_LEFT]) {
+            rectX -= currentSpeed;
+        }
+        if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
+            rectX += currentSpeed;
+        }
+        clampPosition();
+    }
+}
+
+void Engine::handleTitleInput(SDL_Event& e) {
+    if (e.type == SDL_QUIT) {
+        isRunning = false;
+    }
+    if (e.type == SDL_KEYDOWN) {
+        if (e.key.keysym.sym == SDLK_RETURN) {
+            // Start the game
+            currentState = GameState::GAME_RUNNING;
+        }
+        else if (e.key.keysym.sym == SDLK_ESCAPE) {
             isRunning = false;
         }
     }
-
-    // Get current keyboard state
-    const Uint8* keystates = SDL_GetKeyboardState(NULL);
-
-    int currentSpeed = rectSpeed;
-
-    if(keystates[SDL_SCANCODE_LSHIFT]) {
-        currentSpeed = rectSpeed / 2;
-    }
-    if (keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP]) {
-        rectY -= currentSpeed;
-    }
-    if (keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN]) {
-        rectY += currentSpeed;
-    }
-    if (keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_LEFT]) {
-        rectX -= currentSpeed;
-    }
-    if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
-        rectX += currentSpeed;
-    }
-    
-    clampPosition();
 }
 
 void Engine::clampPosition() {
@@ -138,28 +151,73 @@ void Engine::clampPosition() {
 }
 
 void Engine::run() {
+    SDL_Event e;
+
     while (isRunning) {
-        handleInput();
+        while (SDL_PollEvent(&e)) {
+            if (currentState == GameState::TITLE_SCREEN) {
+                handleTitleInput(e);
+            } else if (currentState == GameState::GAME_RUNNING) {
+                handleInput(e);
+            }
+        }
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        // Clear screen each frame (done in renderTitleScreen or here)
+        if (currentState == GameState::TITLE_SCREEN) {
+            renderTitleScreen();
+        } else if (currentState == GameState::GAME_RUNNING) {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
 
-        render();
-        renderFPS();
+            render();
+            renderFPS();
+        }
 
         SDL_RenderPresent(renderer);
 
         updateFPS();
 
-        SDL_Delay(16);  // ~60 FPS CHANGE TO CHANGE FPS (16 for 60 FPS)
+        SDL_Delay(16);  // ~60 FPS WHEN 16
     }
 }
+
 
 void Engine::render() {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
     SDL_Rect rect = { rectX, rectY, 10, 10 };
     SDL_RenderFillRect(renderer, &rect);
+}
+
+void Engine::renderTitleScreen() {
+    // Optional: clear with different background color for title screen
+    SDL_SetRenderDrawColor(renderer, 30, 30, 60, 255);
+    SDL_RenderClear(renderer);
+
+    SDL_Color white = { 255, 255, 255, 255 };
+
+    SDL_Texture* titleTexture = createTextTexture("My SDL2 Game", white);
+    SDL_Texture* startTexture = createTextTexture("Press Enter to Start", white);
+    SDL_Texture* exitTexture = createTextTexture("Press ESC to Quit", white);
+
+    if (titleTexture && startTexture && exitTexture) {
+        int tw, th, sw, sh, ew, eh;
+        SDL_QueryTexture(titleTexture, NULL, NULL, &tw, &th);
+        SDL_QueryTexture(startTexture, NULL, NULL, &sw, &sh);
+        SDL_QueryTexture(exitTexture, NULL, NULL, &ew, &eh);
+
+        SDL_Rect titleRect = { (width - tw) / 2, height / 4, tw, th };
+        SDL_Rect startRect = { (width - sw) / 2, height / 2, sw, sh };
+        SDL_Rect exitRect = { (width - ew) / 2, height / 2 + 40, ew, eh };
+
+        SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
+        SDL_RenderCopy(renderer, startTexture, NULL, &startRect);
+        SDL_RenderCopy(renderer, exitTexture, NULL, &exitRect);
+    }
+
+    if (titleTexture) SDL_DestroyTexture(titleTexture);
+    if (startTexture) SDL_DestroyTexture(startTexture);
+    if (exitTexture) SDL_DestroyTexture(exitTexture);
 }
 
 void Engine::cleanup() {
