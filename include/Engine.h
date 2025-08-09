@@ -14,7 +14,7 @@ public:
     void run();
     void cleanup();
     void render();
-    void handleInput(SDL_Event& e);
+    void handleInput();
     void clampPosition();
 
 private:

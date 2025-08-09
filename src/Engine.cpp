@@ -98,34 +98,38 @@ void Engine::renderFPS() {
     }
 }
 
-void Engine::handleInput(SDL_Event& e) {
-    if (e.type == SDL_QUIT) {
-        isRunning = false;
+void Engine::handleInput() {
+    SDL_Event e;
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) {
+            isRunning = false;
+        }
+        // For title screen input, or other event-based input,
+        // handle e.key here if needed.
     }
 
-    // Only process keyboard movement if event is a key or repeat
-    if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-        // We'll use keyboard state for smooth movement below
-        const Uint8* keystates = SDL_GetKeyboardState(NULL);
-        int currentSpeed = rectSpeed;
-        if (keystates[SDL_SCANCODE_LSHIFT]) {
-            currentSpeed = rectSpeed / 2;
-        }
-        if (keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP]) {
-            rectY -= currentSpeed;
-        }
-        if (keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN]) {
-            rectY += currentSpeed;
-        }
-        if (keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_LEFT]) {
-            rectX -= currentSpeed;
-        }
-        if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
-            rectX += currentSpeed;
-        }
-        clampPosition();
+    const Uint8* keystates = SDL_GetKeyboardState(NULL);
+    int currentSpeed = rectSpeed;
+
+    if (keystates[SDL_SCANCODE_LSHIFT]) {
+        currentSpeed = rectSpeed / 2;
     }
+    if (keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP]) {
+        rectY -= currentSpeed;
+    }
+    if (keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN]) {
+        rectY += currentSpeed;
+    }
+    if (keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_LEFT]) {
+        rectX -= currentSpeed;
+    }
+    if (keystates[SDL_SCANCODE_D] || keystates[SDL_SCANCODE_RIGHT]) {
+        rectX += currentSpeed;
+    }
+
+    clampPosition();
 }
+
 
 void Engine::handleTitleInput(SDL_Event& e) {
     if (e.type == SDL_QUIT) {
@@ -154,15 +158,22 @@ void Engine::run() {
     SDL_Event e;
 
     while (isRunning) {
+        // Poll and handle all events
         while (SDL_PollEvent(&e)) {
             if (currentState == GameState::TITLE_SCREEN) {
                 handleTitleInput(e);
-            } else if (currentState == GameState::GAME_RUNNING) {
-                handleInput(e);
+            } else if (e.type == SDL_QUIT) {
+                isRunning = false;
             }
+            // You can add other event-based input handling here if needed
         }
 
-        // Clear screen each frame (done in renderTitleScreen or here)
+        // After processing all events, update movement based on key state
+        if (currentState == GameState::GAME_RUNNING) {
+            handleInput();  // This uses SDL_GetKeyboardState and moves smoothly
+        }
+
+        // Rendering
         if (currentState == GameState::TITLE_SCREEN) {
             renderTitleScreen();
         } else if (currentState == GameState::GAME_RUNNING) {
@@ -177,7 +188,7 @@ void Engine::run() {
 
         updateFPS();
 
-        SDL_Delay(16);  // ~60 FPS WHEN 16
+        SDL_Delay(16);  // ~60 FPS
     }
 }
 
