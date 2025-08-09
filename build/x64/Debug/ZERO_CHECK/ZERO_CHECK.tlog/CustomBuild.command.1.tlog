@@ -1,0 +1,10 @@
+^F:\PERSONAL PROJECTS\SDL2_CMAKE_EXAMPLE\BUILD\CMAKEFILES\B391DF677E4C249E3B5F3AB6A37A83EC\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SF:/PERSONAL PROJECTS/SDL2_CMake_Example" "-BF:/PERSONAL PROJECTS/SDL2_CMake_Example/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/SDL2_CMake_Example.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

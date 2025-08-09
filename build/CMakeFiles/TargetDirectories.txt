@@ -1,0 +1,3 @@
+F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/CMakeFiles/SDL2_CMake_Example.dir
+F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/CMakeFiles/ALL_BUILD.dir
+F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/CMakeFiles/ZERO_CHECK.dir
