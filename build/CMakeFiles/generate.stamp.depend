@@ -15,6 +15,10 @@ C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/MSVC-C.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/MSVC-CXX.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Compiler/MSVC.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/FeatureSummary.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/FindPNG.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/FindZLIB.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeCLinkerInformation.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake
@@ -30,11 +34,18 @@ C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC-CXX.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake
 C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake
+C:/Program Files/CMake/share/cmake-4.1/Modules/SelectLibraryConfigurations.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-debug.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets-release.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_image-shared-targets.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_imageConfig.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_image/SDL2_imageConfigVersion.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-debug.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets-release.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttf-shared-targets.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfig.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/SDL2_ttf/SDL2_ttfConfigVersion.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/png/vcpkg-cmake-wrapper.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/SDL2Config.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/SDL2ConfigVersion.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/SDL2Targets-debug.cmake
@@ -44,6 +55,7 @@ C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/SDL2mainTargets-debug.cmak
 C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/SDL2mainTargets-release.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/SDL2mainTargets.cmake
 C:/Users/goran/vcpkg/installed/x64-windows/share/sdl2/sdlfind.cmake
+C:/Users/goran/vcpkg/installed/x64-windows/share/zlib/vcpkg-cmake-wrapper.cmake
 C:/Users/goran/vcpkg/scripts/buildsystems/vcpkg.cmake
 F:/PERSONAL PROJECTS/SDL2_CMake_Example/CMakeLists.txt
 F:/PERSONAL PROJECTS/SDL2_CMake_Example/build/CMakeFiles/4.1.0-rc4/CMakeCCompiler.cmake

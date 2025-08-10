@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include <iostream>
 #include <sstream>
+#include <SDL_image.h>
 
 Engine::Engine(const std::string& title, int width, int height)
     : title(title), width(width), height(height),
@@ -35,6 +36,17 @@ bool Engine::init() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << "\n";
+        return false;
+    }
+    
+    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+        std::cerr << "SDL_image could not initialize! IMG_Error: " << IMG_GetError() << "\n";
+        return false;
+    }
+
+    playerTexture = IMG_LoadTexture(renderer, "assets/characters/GAMEPLAYER.png");
+    if (!playerTexture) {
+        std::cerr << "Failed to load player sprite: " << IMG_GetError() << "\n";
         return false;
     }
 
@@ -222,11 +234,15 @@ void Engine::render() {
     SDL_Rect divider = { width / 2 - 10, 0, 10, height }; // 10px wide
     SDL_RenderFillRect(renderer, &divider);
 
-    // Draw player rectangle
+    SDL_Rect dest = { rectX - 27, rectY - 27, 64, 64 }; 
+    // subtract so hurtbox stays in sprite center
+    SDL_RenderCopy(renderer, playerTexture, NULL, &dest);
+
+    // Draw hurtbox for debugging (optional)
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect rect = { rectX, rectY, 10, 10 };
-    SDL_RenderFillRect(renderer, &rect);
-}
+    SDL_Rect hurtbox = { rectX, rectY, 10, 10 };
+    SDL_RenderFillRect(renderer, &hurtbox);
+    }
 
 void Engine::renderTitleScreen() {
     // Optional: clear with different background color for title screen
@@ -264,6 +280,10 @@ void Engine::cleanup() {
         SDL_DestroyTexture(fpsTexture);
         fpsTexture = nullptr;
     }
+    if (playerTexture) {
+        SDL_DestroyTexture(playerTexture);
+        playerTexture = nullptr;
+    }
     if (font) {
         TTF_CloseFont(font);
         font = nullptr;
@@ -272,4 +292,5 @@ void Engine::cleanup() {
     if (window) SDL_DestroyWindow(window);
     TTF_Quit();
     SDL_Quit();
+    IMG_Quit();
 }

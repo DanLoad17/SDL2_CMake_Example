@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>      // Add this
 #include <string>
+#include <SDL_image.h>
 
 enum class GameState {
     TITLE_SCREEN,
@@ -24,6 +25,8 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool isRunning;
+
+    SDL_Texture* playerTexture;
 
     GameState currentState;
 
