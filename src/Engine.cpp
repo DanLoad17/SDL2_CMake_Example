@@ -237,8 +237,18 @@ void Engine::render() {
     SDL_Rect divider = { width / 2 - 10, 0, 10, height }; // 10px wide
     SDL_RenderFillRect(renderer, &divider);
 
-    SDL_Rect dest = { rectX - 16, rectY - 32, 32, 64 }; 
-    // subtract so hurtbox stays in sprite center
+    int spriteWidth = 32;
+    int spriteHeight = 64;
+    int hurtboxSize = 10;
+    int yOffset = 10;  // positive moves hurtbox up inside sprite
+
+    SDL_Rect dest = {
+        rectX + hurtboxSize / 2 - spriteWidth / 2,
+        rectY + hurtboxSize / 2 - spriteHeight / 2 + yOffset,
+        spriteWidth,
+        spriteHeight
+    };
+
     SDL_RenderCopy(renderer, playerTexture, NULL, &dest);
 
     // Draw hurtbox for debugging (optional)
