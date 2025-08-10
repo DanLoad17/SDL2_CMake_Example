@@ -279,13 +279,17 @@ void Engine::render() {
     //SDL_Rect hurtbox = { rectX, rectY, hurtboxSize, hurtboxSize };
     //SDL_RenderFillRect(renderer, &hurtbox);
     // Draw hurtbox as layered circles instead of red rectangle
-    int cx = rectX + hurtboxSize / 2;
-    int cy = rectY + hurtboxSize / 2;
+    // Draw hurtbox only if left shift is pressed
+    const Uint8* keystates = SDL_GetKeyboardState(NULL);
+    if (keystates[SDL_SCANCODE_LSHIFT]) {
+        int cx = rectX + hurtboxSize / 2;
+        int cy = rectY + hurtboxSize / 2;
 
-    drawFilledCircle(cx, cy, 5, {0, 0, 139, 255});    // Dark blue outer circle
-    drawFilledCircle(cx, cy, 3, {173, 216, 230, 255}); // Light blue middle circle
-    drawFilledCircle(cx, cy, 1, {255, 255, 255, 255}); // White center circle
+        drawFilledCircle(cx, cy, 5, {0, 0, 139, 255});    // Dark blue outer circle
+        drawFilledCircle(cx, cy, 3, {173, 216, 230, 255}); // Light blue middle circle
+        drawFilledCircle(cx, cy, 1, {255, 255, 255, 255}); // White center circle
     }
+}
 
 void Engine::renderTitleScreen() {
     // Optional: clear with different background color for title screen
