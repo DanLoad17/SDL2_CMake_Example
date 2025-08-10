@@ -44,11 +44,14 @@ bool Engine::init() {
         return false;
     }
 
-    playerTexture = IMG_LoadTexture(renderer, "assets/characters/GAMEPLAYER.png");
+    playerTexture = IMG_LoadTexture(renderer, "assets/characters/LAMBDAPLAYER2.png");
     if (!playerTexture) {
         std::cerr << "Failed to load player sprite: " << IMG_GetError() << "\n";
         return false;
     }
+
+    SDL_SetTextureColorMod(playerTexture, 255, 255, 255);
+    SDL_SetTextureAlphaMod(playerTexture, 255);
 
     // Load font (you need a .ttf file, place it in your project folder or provide full path)
     font = TTF_OpenFont("LCALLIG.ttf", 16);
@@ -234,7 +237,7 @@ void Engine::render() {
     SDL_Rect divider = { width / 2 - 10, 0, 10, height }; // 10px wide
     SDL_RenderFillRect(renderer, &divider);
 
-    SDL_Rect dest = { rectX - 27, rectY - 27, 64, 64 }; 
+    SDL_Rect dest = { rectX - 16, rectY - 32, 32, 64 }; 
     // subtract so hurtbox stays in sprite center
     SDL_RenderCopy(renderer, playerTexture, NULL, &dest);
 
