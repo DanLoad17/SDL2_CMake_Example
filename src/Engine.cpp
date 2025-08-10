@@ -147,11 +147,16 @@ void Engine::handleTitleInput(SDL_Event& e) {
 }
 
 void Engine::clampPosition() {
-    // Clamp rectangle within left half of the window
-    if (rectX < 0) rectX = 0;
-    if (rectY < 0) rectY = 0;
-    if (rectX + 10 > width / 2) rectX = width / 2 - 10;  
-    if (rectY + 10 > height) rectY = height - 10;       
+    // Keep rectangle within game area with 10px walls
+    int leftLimit = 10;
+    int topLimit = 10;
+    int rightLimit = (width / 2) - 10; // leave room before divider
+    int bottomLimit = height - 10;
+
+    if (rectX < leftLimit) rectX = leftLimit;
+    if (rectY < topLimit) rectY = topLimit;
+    if (rectX + 10 > rightLimit) rectX = rightLimit - 10;
+    if (rectY + 10 > bottomLimit) rectY = bottomLimit - 10;
 }
 
 void Engine::run() {
@@ -194,8 +199,31 @@ void Engine::run() {
 
 
 void Engine::render() {
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    // Clear screen
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
 
+    // Draw walls for game area
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white walls
+
+    // Top wall
+    SDL_Rect topWall = { 0, 0, width / 2, 10 };
+    SDL_RenderFillRect(renderer, &topWall);
+
+    // Left wall
+    SDL_Rect leftWall = { 0, 0, 10, height };
+    SDL_RenderFillRect(renderer, &leftWall);
+
+    // Bottom wall
+    SDL_Rect bottomWall = { 0, height - 10, width / 2, 10 };
+    SDL_RenderFillRect(renderer, &bottomWall);
+
+    // Divider between game & menu
+    SDL_Rect divider = { width / 2 - 10, 0, 10, height }; // 10px wide
+    SDL_RenderFillRect(renderer, &divider);
+
+    // Draw player rectangle
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_Rect rect = { rectX, rectY, 10, 10 };
     SDL_RenderFillRect(renderer, &rect);
 }
