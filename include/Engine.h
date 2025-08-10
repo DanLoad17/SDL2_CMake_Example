@@ -41,6 +41,7 @@ private:
     Uint32 fpsTimerStart = 0;
     int frameCount = 0;
     int currentFPS = 0;
+    int hurtboxSize = 5;
 
     void updateFPS();
     void renderFPS();

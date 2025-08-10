@@ -44,7 +44,7 @@ bool Engine::init() {
         return false;
     }
 
-    playerTexture = IMG_LoadTexture(renderer, "assets/characters/LAMBDAPLAYER2.png");
+    playerTexture = IMG_LoadTexture(renderer, "assets/characters/LAMBDAPLAYERTEST.png");
     if (!playerTexture) {
         std::cerr << "Failed to load player sprite: " << IMG_GetError() << "\n";
         return false;
@@ -170,8 +170,8 @@ void Engine::clampPosition() {
 
     if (rectX < leftLimit) rectX = leftLimit;
     if (rectY < topLimit) rectY = topLimit;
-    if (rectX + 10 > rightLimit) rectX = rightLimit - 10;
-    if (rectY + 10 > bottomLimit) rectY = bottomLimit - 10;
+    if (rectX + hurtboxSize > rightLimit) rectX = rightLimit - hurtboxSize;
+    if (rectY + hurtboxSize > bottomLimit) rectY = bottomLimit - hurtboxSize;
 }
 
 void Engine::run() {
@@ -239,11 +239,12 @@ void Engine::render() {
 
     int spriteWidth = 32;
     int spriteHeight = 64;
-    int hurtboxSize = 10;
+    int hurtboxSize = 5;
     int yOffset = 10;  // positive moves hurtbox up inside sprite
+    int xOffset = 2;
 
     SDL_Rect dest = {
-        rectX + hurtboxSize / 2 - spriteWidth / 2,
+        rectX + hurtboxSize / 2 - spriteWidth / 2 + xOffset,
         rectY + hurtboxSize / 2 - spriteHeight / 2 + yOffset,
         spriteWidth,
         spriteHeight
@@ -253,7 +254,7 @@ void Engine::render() {
 
     // Draw hurtbox for debugging (optional)
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect hurtbox = { rectX, rectY, 10, 10 };
+    SDL_Rect hurtbox = { rectX, rectY, hurtboxSize, hurtboxSize };
     SDL_RenderFillRect(renderer, &hurtbox);
     }
 
