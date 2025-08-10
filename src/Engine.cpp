@@ -154,6 +154,15 @@ void Engine::handleTitleInput(SDL_Event& e) {
         if (e.key.keysym.sym == SDLK_RETURN) {
             // Start the game
             currentState = GameState::GAME_RUNNING;
+
+            // Set player position to middle horizontally in game area:
+            // The game area width is width / 2
+            rectX = (width / 2) / 2; // middle of left half
+
+            // Set player Y to about 1/3 from bottom (height - 1/3 height)
+            rectY = static_cast<int>(height * 2 / 3); 
+
+            clampPosition();  // clamp in case edges are exceeded
         }
         else if (e.key.keysym.sym == SDLK_ESCAPE) {
             isRunning = false;
