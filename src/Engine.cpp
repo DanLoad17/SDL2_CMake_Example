@@ -221,6 +221,19 @@ void Engine::run() {
     }
 }
 
+void Engine::drawFilledCircle(int centerX, int centerY, int radius, SDL_Color color) {
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+
+    for (int w = 0; w < radius * 2; w++) {
+        for (int h = 0; h < radius * 2; h++) {
+            int dx = radius - w; // horizontal offset from center
+            int dy = radius - h; // vertical offset from center
+            if ((dx*dx + dy*dy) <= (radius * radius)) {
+                SDL_RenderDrawPoint(renderer, centerX + dx, centerY + dy);
+            }
+        }
+    }
+}
 
 void Engine::render() {
     // Clear screen
@@ -249,7 +262,7 @@ void Engine::render() {
     int spriteWidth = 32;
     int spriteHeight = 64;
     int hurtboxSize = 5;
-    int yOffset = 10;  // positive moves hurtbox up inside sprite
+    int yOffset = 12;  // positive moves hurtbox up inside sprite
     int xOffset = 2;
 
     SDL_Rect dest = {
@@ -262,9 +275,16 @@ void Engine::render() {
     SDL_RenderCopy(renderer, playerTexture, NULL, &dest);
 
     // Draw hurtbox for debugging (optional)
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect hurtbox = { rectX, rectY, hurtboxSize, hurtboxSize };
-    SDL_RenderFillRect(renderer, &hurtbox);
+    //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    //SDL_Rect hurtbox = { rectX, rectY, hurtboxSize, hurtboxSize };
+    //SDL_RenderFillRect(renderer, &hurtbox);
+    // Draw hurtbox as layered circles instead of red rectangle
+    int cx = rectX + hurtboxSize / 2;
+    int cy = rectY + hurtboxSize / 2;
+
+    drawFilledCircle(cx, cy, 5, {0, 0, 139, 255});    // Dark blue outer circle
+    drawFilledCircle(cx, cy, 3, {173, 216, 230, 255}); // Light blue middle circle
+    drawFilledCircle(cx, cy, 1, {255, 255, 255, 255}); // White center circle
     }
 
 void Engine::renderTitleScreen() {

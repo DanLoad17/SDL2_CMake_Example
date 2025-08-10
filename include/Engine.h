@@ -49,4 +49,5 @@ private:
 
     void renderTitleScreen();
     void handleTitleInput(SDL_Event& e);
+    void drawFilledCircle(int centerX, int centerY, int radius, SDL_Color color);
 };
