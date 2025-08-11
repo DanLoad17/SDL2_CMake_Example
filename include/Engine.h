@@ -42,6 +42,9 @@ private:
     int frameCount = 0;
     int currentFPS = 0;
     int hurtboxSize = 5;
+    SDL_Texture* heartTexture = nullptr;
+    int playerHealth = 5; // start with 5 HP
+
 
     void updateFPS();
     void renderFPS();

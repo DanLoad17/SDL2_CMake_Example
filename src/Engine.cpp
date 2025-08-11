@@ -61,6 +61,14 @@ bool Engine::init() {
         return false;
     }
 
+    SDL_Surface* heartSurface = IMG_Load("assets/menusprites/HEART.png");
+    if (!heartSurface) {
+        SDL_Log("Failed to load heart: %s", IMG_GetError());
+        return false;
+    }
+    heartTexture = SDL_CreateTextureFromSurface(renderer, heartSurface);
+    SDL_FreeSurface(heartSurface);
+
     fpsTimerStart = SDL_GetTicks();
 
     isRunning = true;
@@ -259,6 +267,28 @@ void Engine::render() {
     SDL_Rect divider = { width / 2 - 10, 0, 10, height }; // 10px wide
     SDL_RenderFillRect(renderer, &divider);
 
+    // Draw "HP:" text in menu
+    SDL_Color white = {255, 255, 255, 255};
+    SDL_Surface* hpSurface = TTF_RenderText_Solid(font, "HP:", white);
+    SDL_Texture* hpText = SDL_CreateTextureFromSurface(renderer, hpSurface);
+
+    SDL_Rect hpTextRect = { width/2 + 20, 20, hpSurface->w, hpSurface->h };
+    SDL_RenderCopy(renderer, hpText, NULL, &hpTextRect);
+
+    SDL_FreeSurface(hpSurface);
+    SDL_DestroyTexture(hpText);
+
+    // Draw heart sprites next to HP:
+    int heartWidth = 24;
+    int heartHeight = 24;
+    int heartX = hpTextRect.x + hpTextRect.w + 10; // offset after "HP:"
+    int heartY = 15; // align with text
+
+    for (int i = 0; i < playerHealth; i++) {
+        SDL_Rect heartRect = { heartX + i * (heartWidth + 5), heartY, heartWidth, heartHeight };
+        SDL_RenderCopy(renderer, heartTexture, NULL, &heartRect);
+    }
+
     int spriteWidth = 32;
     int spriteHeight = 64;
     int hurtboxSize = 5;
@@ -273,6 +303,7 @@ void Engine::render() {
     };
 
     SDL_RenderCopy(renderer, playerTexture, NULL, &dest);
+
 
     // Draw hurtbox for debugging (optional)
     //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -337,6 +368,7 @@ void Engine::cleanup() {
     }
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
+    SDL_DestroyTexture(heartTexture);
     TTF_Quit();
     SDL_Quit();
     IMG_Quit();
