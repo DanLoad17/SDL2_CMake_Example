@@ -69,6 +69,15 @@ bool Engine::init() {
     heartTexture = SDL_CreateTextureFromSurface(renderer, heartSurface);
     SDL_FreeSurface(heartSurface);
 
+    SDL_Surface* bombSurface = IMG_Load("assets/menusprites/BOMB.png");
+    if (!bombSurface) {
+        SDL_Log("Failed to load bomb: %s", IMG_GetError());
+        return false;
+    }
+    bombTexture = SDL_CreateTextureFromSurface(renderer, bombSurface);
+    SDL_FreeSurface(bombSurface);
+
+
     fpsTimerStart = SDL_GetTicks();
 
     isRunning = true;
@@ -272,7 +281,7 @@ void Engine::render() {
     SDL_Surface* hpSurface = TTF_RenderText_Solid(font, "HP:", white);
     SDL_Texture* hpText = SDL_CreateTextureFromSurface(renderer, hpSurface);
 
-    SDL_Rect hpTextRect = { width/2 + 20, 20, hpSurface->w, hpSurface->h };
+    SDL_Rect hpTextRect = { width/2 + 20, 100, hpSurface->w, hpSurface->h };
     SDL_RenderCopy(renderer, hpText, NULL, &hpTextRect);
 
     SDL_FreeSurface(hpSurface);
@@ -282,11 +291,32 @@ void Engine::render() {
     int heartWidth = 24;
     int heartHeight = 24;
     int heartX = hpTextRect.x + hpTextRect.w + 10; // offset after "HP:"
-    int heartY = 15; // align with text
+    int heartY = 100; // align with text
 
     for (int i = 0; i < playerHealth; i++) {
         SDL_Rect heartRect = { heartX + i * (heartWidth + 5), heartY, heartWidth, heartHeight };
         SDL_RenderCopy(renderer, heartTexture, NULL, &heartRect);
+    }
+
+    // --- Render Bomb Bar ---
+    int bombX = 340; 
+    int bombY = heartY + heartHeight + 10; // position below hearts
+    int bombWidth = 32;
+    int bombHeight = 32;
+    int bombSpacing = 5;
+
+    // Draw label "Bombs:"
+    SDL_Surface* bombTextSurface = TTF_RenderText_Solid(font, "Bombs:", white);
+    SDL_Texture* bombTextTexture = SDL_CreateTextureFromSurface(renderer, bombTextSurface);
+    SDL_Rect bombTextRect = {bombX, bombY, bombTextSurface->w, bombTextSurface->h};
+    SDL_RenderCopy(renderer, bombTextTexture, NULL, &bombTextRect);
+    SDL_FreeSurface(bombTextSurface);
+    SDL_DestroyTexture(bombTextTexture);
+
+    // Draw bombs
+    for (int i = 0; i < bombs; i++) {
+        SDL_Rect destRect = {bombX + 80 + i * (bombWidth + bombSpacing), bombY, bombWidth, bombHeight};
+        SDL_RenderCopy(renderer, bombTexture, NULL, &destRect);
     }
 
     int spriteWidth = 32;
@@ -365,6 +395,10 @@ void Engine::cleanup() {
     if (font) {
         TTF_CloseFont(font);
         font = nullptr;
+    }
+    if (bombTexture) {
+        SDL_DestroyTexture(bombTexture);
+        bombTexture = nullptr;
     }
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);

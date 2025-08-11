@@ -43,7 +43,11 @@ private:
     int currentFPS = 0;
     int hurtboxSize = 5;
     SDL_Texture* heartTexture = nullptr;
-    int playerHealth = 5; // start with 5 HP
+    SDL_Texture* bombTexture = nullptr;
+    int playerHealth = 3; // start with 3 HP
+    int maxHealth = 5;
+    int maxBombs = 5;
+    int bombs = 5; // start with 5 bombs
 
 
     void updateFPS();
