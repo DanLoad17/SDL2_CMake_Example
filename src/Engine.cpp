@@ -159,6 +159,19 @@ void Engine::handleInput() {
         rectX += currentSpeed;
     }
 
+    // Bomb key handling (X key)
+    bool xKeyDown = keystates[SDL_SCANCODE_X];
+
+    if (xKeyDown && !xKeyPreviouslyDown) {  // Just pressed
+        if (bombs > 0) {
+            bombs--;
+            std::cout << "Bomb used! Remaining: " << bombs << std::endl;
+            // TODO: trigger bomb effect here
+        }
+    }
+
+    xKeyPreviouslyDown = xKeyDown; // store state for next frame
+
     clampPosition();
 }
 

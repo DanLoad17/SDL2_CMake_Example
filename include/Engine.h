@@ -48,6 +48,7 @@ private:
     int maxHealth = 5;
     int maxBombs = 5;
     int bombs = 5; // start with 5 bombs
+    bool xKeyPreviouslyDown = false; // For detecting single key press
 
 
     void updateFPS();
