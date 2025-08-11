@@ -61,7 +61,7 @@ bool Engine::init() {
         return false;
     }
 
-    SDL_Surface* heartSurface = IMG_Load("assets/menusprites/HEART.png");
+    SDL_Surface* heartSurface = IMG_Load("assets/menusprites/HEALTH.png");
     if (!heartSurface) {
         SDL_Log("Failed to load heart: %s", IMG_GetError());
         return false;
