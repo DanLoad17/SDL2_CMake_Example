@@ -77,6 +77,14 @@ bool Engine::init() {
     bombTexture = SDL_CreateTextureFromSurface(renderer, bombSurface);
     SDL_FreeSurface(bombSurface);
 
+    SDL_Surface* selectorSurface = IMG_Load("assets/menusprites/selector.png");
+    if (!selectorSurface) {
+        std::cerr << "Failed to load selector sprite: " << IMG_GetError() << "\n";
+        return false;
+    }
+    selectorTexture = SDL_CreateTextureFromSurface(renderer, selectorSurface);
+    SDL_FreeSurface(selectorSurface);
+
 
     fpsTimerStart = SDL_GetTicks();
 
@@ -140,14 +148,19 @@ void Engine::handleInput() {
 
     const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
-    // Detect ESC key press to toggle pause
+    // Static variables for key states
     static bool escPreviouslyDown = false;
+    static bool zPreviouslyDown = false;
+    static bool upPreviouslyDown = false;
+    static bool downPreviouslyDown = false;
+    static bool xKeyPreviouslyDown = false;
+
+    // Detect ESC key press to toggle pause
     bool escDown = keystates[SDL_SCANCODE_ESCAPE];
     if (escDown && !escPreviouslyDown) {
         if (currentState == GameState::GAME_RUNNING) {
             currentState = GameState::PAUSED;
-        }
-        else if (currentState == GameState::PAUSED) {
+        } else if (currentState == GameState::PAUSED) {
             currentState = GameState::GAME_RUNNING;
         }
     }
@@ -156,13 +169,9 @@ void Engine::handleInput() {
     if (currentState == GameState::PAUSED) {
         // Only allow pause menu navigation inputs here
 
-        static bool zPreviouslyDown = false;
         bool zDown = keystates[SDL_SCANCODE_Z];
         bool upDown = keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP];
         bool downDown = keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN];
-
-        static bool upPreviouslyDown = false;
-        static bool downPreviouslyDown = false;
 
         // Navigate pause menu up
         if (upDown && !upPreviouslyDown) {
@@ -214,7 +223,6 @@ void Engine::handleInput() {
     }
 
     // Bomb key handling (X key)
-    static bool xKeyPreviouslyDown = false;
     bool xKeyDown = keystates[SDL_SCANCODE_X];
     if (xKeyDown && !xKeyPreviouslyDown) {  // Just pressed
         if (bombs > 0) {
@@ -227,6 +235,7 @@ void Engine::handleInput() {
 
     clampPosition();
 }
+
 
 
 void Engine::handleTitleInput(SDL_Event& e) {
@@ -294,6 +303,19 @@ void Engine::run() {
 
             render();
             renderFPS();
+        } else if (currentState == GameState::PAUSED) {
+            // Render game normally first (optional)
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
+            render();
+            renderFPS();
+
+            // Render pause overlay/menu on top
+            renderPauseMenu();
+
+            SDL_RenderPresent(renderer);
+            // Skip the normal present and delay at the end of loop
+            continue;
         }
 
         SDL_RenderPresent(renderer);
@@ -303,6 +325,7 @@ void Engine::run() {
         SDL_Delay(16);  // ~60 FPS
     }
 }
+
 
 void Engine::drawFilledCircle(int centerX, int centerY, int radius, SDL_Color color) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -449,6 +472,61 @@ void Engine::renderTitleScreen() {
     if (exitTexture) SDL_DestroyTexture(exitTexture);
 }
 
+void Engine::renderPauseMenu() {
+    // First, draw a semi-transparent black overlay to dim the screen
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150);  // 150 alpha for dimming
+    SDL_Rect screenRect = { 0, 0, width, height };
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_RenderFillRect(renderer, &screenRect);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);  // reset blend mode
+
+    // Draw "PAUSED" near top center
+    SDL_Color white = { 255, 255, 255, 255 };
+    SDL_Texture* pausedText = createTextTexture("PAUSED", white);
+    if (pausedText) {
+        int textW, textH;
+        SDL_QueryTexture(pausedText, NULL, NULL, &textW, &textH);
+        SDL_Rect pausedRect = { (width - textW) / 2, height / 6, textW, textH };
+        SDL_RenderCopy(renderer, pausedText, NULL, &pausedRect);
+        SDL_DestroyTexture(pausedText);
+    }
+
+    // Menu options
+    const char* options[2] = { "Title", "Continue" };
+    int menuStartY = height / 2;
+    int spacing = 40;
+
+    for (int i = 0; i < 2; ++i) {
+        SDL_Texture* optionText = createTextTexture(options[i], white);
+        if (optionText) {
+            int textW, textH;
+            SDL_QueryTexture(optionText, NULL, NULL, &textW, &textH);
+            SDL_Rect optionRect = { (width - textW) / 2 + 20, menuStartY + i * spacing, textW, textH };
+            SDL_RenderCopy(renderer, optionText, NULL, &optionRect);
+            SDL_DestroyTexture(optionText);
+        }
+    }
+
+    // Draw selector sprite to the left of selected option
+    if (selectorTexture) {
+        int selectorWidth = 32;
+        int selectorHeight = 32;
+        int selectorX = (width -  /* average option text width */ 100) / 2 - selectorWidth - 10;
+        int selectorY = menuStartY + pauseMenuSelection * spacing + 4;  // slight vertical offset to center
+        SDL_Rect selectorRect = { selectorX, selectorY, selectorWidth, selectorHeight };
+        SDL_RenderCopy(renderer, selectorTexture, NULL, &selectorRect);
+    } else {
+        // fallback white rectangle if selectorTexture missing
+        int selectorX = (width / 2) - 50;
+        int selectorY = menuStartY + pauseMenuSelection * spacing + 5;
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_Rect selectorRect = { selectorX, selectorY, 20, 20 };
+        SDL_RenderFillRect(renderer, &selectorRect);
+    }
+}
+
+
+
 void Engine::cleanup() {
     if (fpsTexture) {
         SDL_DestroyTexture(fpsTexture);
@@ -465,6 +543,10 @@ void Engine::cleanup() {
     if (bombTexture) {
         SDL_DestroyTexture(bombTexture);
         bombTexture = nullptr;
+    }
+    if (selectorTexture) {
+        SDL_DestroyTexture(selectorTexture);
+        selectorTexture = nullptr;
     }
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);

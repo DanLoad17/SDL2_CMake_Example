@@ -45,6 +45,8 @@ private:
     int hurtboxSize = 5;
     SDL_Texture* heartTexture = nullptr;
     SDL_Texture* bombTexture = nullptr;
+    SDL_Texture* selectorTexture = nullptr;
+
     int playerHealth = 3; // start with 3 HP
     int maxHealth = 5;
     int maxBombs = 5;
@@ -59,4 +61,5 @@ private:
     void renderTitleScreen();
     void handleTitleInput(SDL_Event& e);
     void drawFilledCircle(int centerX, int centerY, int radius, SDL_Color color);
+    void renderPauseMenu();
 };
