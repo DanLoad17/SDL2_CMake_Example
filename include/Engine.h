@@ -6,7 +6,8 @@
 
 enum class GameState {
     TITLE_SCREEN,
-    GAME_RUNNING
+    GAME_RUNNING,
+    PAUSED
 };
 class Engine {
 public:
@@ -28,7 +29,7 @@ private:
 
     SDL_Texture* playerTexture;
 
-    GameState currentState;
+    GameState currentState = GameState::TITLE_SCREEN;
 
     int rectX;
     int rectY;
@@ -49,7 +50,7 @@ private:
     int maxBombs = 5;
     int bombs = 5; // start with 5 bombs
     bool xKeyPreviouslyDown = false; // For detecting single key press
-
+    int pauseMenuSelection = 0; // 0 = Title, 1 = Continue
 
     void updateFPS();
     void renderFPS();

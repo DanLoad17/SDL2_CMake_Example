@@ -136,13 +136,67 @@ void Engine::handleInput() {
         if (e.type == SDL_QUIT) {
             isRunning = false;
         }
-        // For title screen input, or other event-based input,
-        // handle e.key here if needed.
     }
 
     const Uint8* keystates = SDL_GetKeyboardState(NULL);
-    int currentSpeed = rectSpeed;
 
+    // Detect ESC key press to toggle pause
+    static bool escPreviouslyDown = false;
+    bool escDown = keystates[SDL_SCANCODE_ESCAPE];
+    if (escDown && !escPreviouslyDown) {
+        if (currentState == GameState::GAME_RUNNING) {
+            currentState = GameState::PAUSED;
+        }
+        else if (currentState == GameState::PAUSED) {
+            currentState = GameState::GAME_RUNNING;
+        }
+    }
+    escPreviouslyDown = escDown;
+
+    if (currentState == GameState::PAUSED) {
+        // Only allow pause menu navigation inputs here
+
+        static bool zPreviouslyDown = false;
+        bool zDown = keystates[SDL_SCANCODE_Z];
+        bool upDown = keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_UP];
+        bool downDown = keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_DOWN];
+
+        static bool upPreviouslyDown = false;
+        static bool downPreviouslyDown = false;
+
+        // Navigate pause menu up
+        if (upDown && !upPreviouslyDown) {
+            pauseMenuSelection--;
+            if (pauseMenuSelection < 0) pauseMenuSelection = 1; // wrap around
+        }
+        upPreviouslyDown = upDown;
+
+        // Navigate pause menu down
+        if (downDown && !downPreviouslyDown) {
+            pauseMenuSelection++;
+            if (pauseMenuSelection > 1) pauseMenuSelection = 0; // wrap around
+        }
+        downPreviouslyDown = downDown;
+
+        // Select option
+        if (zDown && !zPreviouslyDown) {
+            if (pauseMenuSelection == 0) {
+                // Title selected
+                currentState = GameState::TITLE_SCREEN;
+            } else if (pauseMenuSelection == 1) {
+                // Continue selected
+                currentState = GameState::GAME_RUNNING;
+            }
+        }
+        zPreviouslyDown = zDown;
+
+        // Do not process any other input while paused
+        return;
+    }
+
+    // GAME_RUNNING state input handling below
+
+    int currentSpeed = rectSpeed;
     if (keystates[SDL_SCANCODE_LSHIFT]) {
         currentSpeed = rectSpeed / 2;
     }
@@ -160,8 +214,8 @@ void Engine::handleInput() {
     }
 
     // Bomb key handling (X key)
+    static bool xKeyPreviouslyDown = false;
     bool xKeyDown = keystates[SDL_SCANCODE_X];
-
     if (xKeyDown && !xKeyPreviouslyDown) {  // Just pressed
         if (bombs > 0) {
             bombs--;
@@ -169,8 +223,7 @@ void Engine::handleInput() {
             // TODO: trigger bomb effect here
         }
     }
-
-    xKeyPreviouslyDown = xKeyDown; // store state for next frame
+    xKeyPreviouslyDown = xKeyDown;
 
     clampPosition();
 }
